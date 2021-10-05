@@ -68,3 +68,5 @@ gem 'devise'
 gem 'cancancan'
 gem 'draper'
 gem 'pundit'
+
+gem 'carrierwave', '~> 2.0'

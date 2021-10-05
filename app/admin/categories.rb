@@ -1,18 +1,12 @@
 ActiveAdmin.register Category do
 
-scope :all, :default => true
-scope "Main Categories" do |cat|
-  cat.where("parent_category_id is null")
-end
-scope "Sub Categories" do |cat|
-  cat.where("parent_category_id > ?", 0)
-end
+
   # See permitted parameters documentation:
   # https://github.com/activeadmin/activeadmin/blob/master/docs/2-resource-customization.md#setting-up-strong-parameters
   #
   # Uncomment all parameters which should be permitted for assignment
   #
-  # permit_params :name, :parent_category_id
+   permit_params :name, :parent_category_id, :image
   #
   # or
   #
@@ -21,5 +15,37 @@ end
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+  scope :all, :default => true
+  scope "Main Categories" do |cat|
+    cat.where("parent_category_id is null")
+  end
+  scope "Sub Categories" do |cat|
+    cat.where("parent_category_id > ?", 0)
+  end
 
+  index do
+    column :id
+    column("Category") { |cat| cat.name }
+    column :parent_category
+    column :image do |catimg|
+      puts catimg.image
+      catimg.image? ? image_tag(catimg.image.url, size:"50x50") : image_tag("no_image.png", size:"50x50")
+    end
+    actions
+  end
+
+  show do
+    panel "Category Details" do
+      attributes_table_for category do
+        row("Category") { category.name }
+        if category.parent_category
+          row("Perent Category") { category.parent_category }
+        end
+        row("Image") { category.image? ? image_tag(category.image.url, size:"100x100") : image_tag("no_image.png", size:"100x100") }
+        row("Created At") { category.created_at }
+        row("Updated At") { category.updated_at }
+      end
+    end
+    active_admin_comments
+  end
 end
