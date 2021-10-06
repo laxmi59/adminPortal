@@ -26,23 +26,40 @@ ActiveAdmin.register Product do
     column("Brand"){|brand| brand.name}
     column :price
     column :body
-    column :productimages
-    column :x do |images|
-       s = []
-        #image_t(img, size:"50x50")
-        #image_tag(images.productimages[0].url, size:"50x50")
-
-        images.productimages.each do |imgs|
-
-          #image_tag(imgs.url)
-          s << image_tag(imgs.url, size:"50x50")
-        end
-        #images.productimages.split(',')[0]
-       s
+    #column :productimages
+    column :productimages do |images|
+      s = []
+      images.productimages.each do |imgs|
+        #image_tag(imgs.url)
+        s << image_tag(imgs.url, size:"50x50")
       end
-
-
-
+      s
+    end
+    actions
+  end
+  show do
+    s = []
+    panel "Product Details" do
+      attributes_table_for product do
+        #puts product.category.inspect
+        row("Product Name") { product.name }
+        row("Parent Category") { product.category.parent_category}
+        row("Category") { product.category }
+        row("Brand") { product.brand }
+        row("Pack Size") { product.pack_size }
+        row("Price") { product.price }
+        row("Body") { product.body }
+        row("Productimages") {
+          |prod| prod.productimages.each do |imgs|
+            #puts imgs.url
+            s << image_tag(imgs.url, size:"100x100")
+          end
+          s
+         }
+        row("Created At") { product.created_at }
+        row("Updated At") { product.updated_at }
+      end
+    end
   end
   #
   # or
