@@ -15,9 +15,22 @@ ActiveAdmin.register Product do
       f.input :price
       f.input :body
       f.input :productimages, as: :file, input_html: { multiple: true }
+      # if product.productimages
+      #   prodimg = []
+      #   columns :productimages do |images|
+      #     product.productimages.each do |imgs|
+      #       #puts imgs.url(:medium)
+      #       prodimg << image_tag(imgs.url(:medium))
+      #     end
+      #     #puts prodimg.inspect
+      #   end
+      #   prodimg
+      # end
     end
     f.actions
   end
+
+
   index do
     column :id
     column :name
@@ -31,7 +44,7 @@ ActiveAdmin.register Product do
       s = []
       images.productimages.each do |imgs|
         #image_tag(imgs.url)
-        s << image_tag(imgs.url, size:"50x50")
+        s << image_tag(imgs.url(:thumb))
       end
       s
     end
@@ -52,7 +65,7 @@ ActiveAdmin.register Product do
         row("Productimages") {
           |prod| prod.productimages.each do |imgs|
             #puts imgs.url
-            s << image_tag(imgs.url, size:"100x100")
+            s << image_tag(imgs.url(:medium))
           end
           s
          }
