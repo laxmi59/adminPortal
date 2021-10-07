@@ -1,27 +1,25 @@
 ActiveAdmin.register Project do
-  permit_params :title
+  permit_params :title, task_attributes: [:title, :is_done, :due_date]
+
+  form do |f|
+    inputs 'Project Details' do
+      f.input :title
+      f.inputs do
+        f.has_many :tasks, heading: 'Tasks', allow_destroy: true do |t|
+          t.input :title
+        end
+      end
+      f.actions
+    end
+  end
 
 
   index do
-    #  start of showing desired columns in the index page add the following
-    column :title do |project|
-      link_to project.title, admin_project_path(project)
-    end
-    #  end of showing desired columns in the index page add the following
-    actions
+    render 'admin/projects/index', context: self
   end
 
   show :title => :title do
-  panel "Tasks" do
-    table_for project.tasks do |t|
-      #t.column("Status") { |task| status_tag (task.is_done ? "Done" : "Pending"), (task.is_done ? :ok : :error) }
-      t.column("Status") { |task| task.is_done ? status_tag("Done", class: :ok) : status_tag("Pending", class: :error) }
-      #t.column("Status") { |task| status_tag (task.is_done ? "Done" : "Pending") }
-      t.column("Title") { |task| link_to task.title, admin_task_path(task) }
-      t.column("Assigned To") { |task| task.admin_user.email }
-      t.column("Due Date") { |task| task.due_date? ? l(task.due_date, :format => :long) : '-' }
-    end
+    render 'admin/projects/show', context: self
   end
-end
 
 end
