@@ -1,0 +1,10 @@
+<% context.instance_eval do
+column :id
+column("Category") { |cat| cat.name }
+column :parent_category
+column :image do |catimg|
+  #puts catimg.image
+  catimg.image? ? image_tag(catimg.image.url(:thumb)) : image_tag("no_image.png", size:"50x50")
+end
+actions
+end %>

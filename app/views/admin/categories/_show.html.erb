@@ -1,0 +1,14 @@
+<% context.instance_eval do
+panel "Category Details" do
+  attributes_table_for category do
+    row("Category") { category.name }
+    if category.parent_category
+      row("Perent Category") { category.parent_category }
+    end
+    row("Image") { category.image? ? image_tag(category.image.url(:medium)) : image_tag("no_image.png", size:"100x100") }
+    row("Created At") { category.created_at }
+    row("Updated At") { category.updated_at }
+  end
+end
+active_admin_comments
+end %>

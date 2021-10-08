@@ -5,6 +5,7 @@ ActiveAdmin.register Product do
   # Uncomment all parameters which should be permitted for assignment
   #
   permit_params :name, :category_id, :brand_id, :pack_size, :price, :body, {productimages: []}
+
   form html: { multipart: true }  do |f|
     f.inputs  do
       f.input :name
@@ -14,21 +15,10 @@ ActiveAdmin.register Product do
       f.input :price
       f.input :body
       f.input :productimages, as: :file, input_html: { multiple: true }
-      # if product.productimages
-      #   prodimg = []
-      #   columns :productimages do |images|
-      #     product.productimages.each do |imgs|
-      #       #puts imgs.url(:medium)
-      #       prodimg << image_tag(imgs.url(:medium))
-      #     end
-      #     #puts prodimg.inspect
-      #   end
-      #   prodimg
-      # end
     end
     f.actions
   end
-  
+
   index do
     column :id
     column :name
