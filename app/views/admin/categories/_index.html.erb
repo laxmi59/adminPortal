@@ -1,7 +1,14 @@
 <% context.instance_eval do
+#puts parent_category_id
+#@pcat = Category.where("id = ?",1)
+#puts @pcat
 column :id
 column("Category") { |cat| cat.name }
-column :parent_category
+column("Category") {
+  |cat|
+  @pcat = Category.where("id = ?",cat.parent_category_id)
+  puts @pcat
+}
 column :image do |catimg|
   #puts catimg.image
   catimg.image? ? image_tag(catimg.image.url(:thumb)) : image_tag("no_image.png", size:"50x50")

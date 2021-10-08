@@ -9,7 +9,7 @@ ActiveAdmin.register Product do
   form html: { multipart: true }  do |f|
     f.inputs  do
       f.input :name
-      f.input :category_id, :as => :select, :collection => Category.all
+      f.input :category_id, :as => :select, :collection => Category.where("parent_category_id > 0")
       f.input :brand_id, :as => :select, :collection => Brand.all
       f.input :pack_size
       f.input :price
@@ -22,9 +22,11 @@ ActiveAdmin.register Product do
   index do
     column :id
     column :name
-    column :parent_category
-    column("Category"){ |cat| cat.name}
-    column("Brand"){|brand| brand.name}
+    puts column :category_id
+    column("Category")  { |cat|
+      @cat=Category.where("id = ?", :category_id)
+      @cat}
+    column("Brand") {|brand| brand.name}
     column :price
     column :body
     #column :productimages

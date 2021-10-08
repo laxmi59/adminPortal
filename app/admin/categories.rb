@@ -13,6 +13,7 @@ ActiveAdmin.register Category do
   #   permitted << :other if params[:action] == 'create' && current_user.admin?
   #   permitted
   # end
+  config.sort_order = 'id_asc'
   csv do
     column :id
     column("Category") { |cat| cat.name }
@@ -23,7 +24,7 @@ ActiveAdmin.register Category do
   form html: { multipart: true }  do |f|
     f.inputs  do
       f.input :name
-      f.input :parent_category_id, :as => :select, :collection => Category.all
+      f.input :parent_category_id, :as => :select, :collection => Category.where("parent_category_id is null")
       f.input :image, as: :file
       if category.image.url
         panel "Image" do

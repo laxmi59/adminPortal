@@ -1,0 +1,30 @@
+write custom queries in application
+    https://www.rubyguides.com/2019/07/rails-where-method/
+    Category.where("parent_category_id > 0")
+
+Return errors
+    	render :new, status: :unprocessable_entity
+
+For displaying errors
+     	<% @article.errors.full_messages_for(:title).each do |message| %>
+    For delete link
+     <%= link_to "Destroy", article_path(@article),
+                      method: :delete,
+                      data: { confirm: "Are you sure?" } %>
+
+
+File uploading
+    https://www.tutorialspoint.com/ruby-on-rails/rails-file-uploading.htm
+
+Consol commands
+Removing rails application
+    $ rails db:drop
+    $ cd .. && rm -rf app_name
+
+find table column names
+    Category.column_names
+
+drop table
+    drop_table :table_name
+
+    https://medium.com/@goncalvesjoao/carrierwave-add-remove-individual-images-using-input-file-multiple-fb65f75de06a
